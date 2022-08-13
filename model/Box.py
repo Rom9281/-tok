@@ -16,14 +16,18 @@ class Box(Identifiable):
     def __hash__(self) -> int:
         return hash(self.__coord)
         
-    def setColor(self,color):
-        self.__color = color
-    
-    def setCoord(self,coord):
-        self.__coord = coord
-    
-    def getColor(self):
+    @property
+    def color(self):
         return self.__color
-    
-    def getCoord(self):
+
+    @property
+    def coord(self):
         return self.__coord
+    
+    @color.setter
+    def color(self,c):
+        if(isinstance(c,COLOR)):
+            self.__color=c
+        else:
+            raise TypeError("Not the right type")
+    
