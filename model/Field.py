@@ -8,42 +8,46 @@ import json
 
 class Field(Identifiable,Observable):
     def __init__(self, width = 1, height = 1,*observers):
-        super(Observable).__init__(*observers)
-        self.__id = Identifiable.__getId()
+        super().__init__(*observers)
+        self.__id = Identifiable._getId()
         self.__width = width
         self.__height = height
         self.__boxField = self._generateBoxes()
+        #print(self.__boxField)
     
     def _generateBoxes(self):
         ret = {}
+
         for i in range(self.__width):
             for j in range(self.__height):
                 rand = randint(0,2)
                 ret[hash((i,j))]=Box(COLOR(rand),(i,j))
+        
+        return ret
     
     def _getEmptyBoxes(self)->list:
         ret = []
-        for box in self.__boxField.keys:
-            if box.color == COLOR.GREY:
+        for box in self.__boxField.values():
+            if box.color == COLOR(0):
                 ret.append(box)
         return ret
     
     def _getRandomEmpty(self)->tuple:
         listEmpty = self._getEmptyBoxes()
         rand = randint(0,len(listEmpty)-1)
-        return listEmpty[rand].coord()
+        return listEmpty[rand].coord
     
     def _moveColor(self,i,j):
-        color = self.__boxField[hash((i,j))].color() # get the color of the moved citizen
-        self.__boxField[hash((i,j))].color(COLOR.GREY) # color the old box to grey
-        self.__boxField[hash(self._getRandomEmpty())].color(color) # color the new box with the right color
+        color = self.__boxField[hash((i,j))].color # get the color of the moved citizen
+        self.__boxField[hash((i,j))].color=COLOR(0) # color the old box to grey
+        self.__boxField[hash(self._getRandomEmpty())].color=color # color the new box with the right color
     
     def getBoxColor(self,i,j):
         """The Field class sanitises the input and then returns the right box"""
-        i = self.__sanitize(i,self.__height-1)
-        j = self.__sanitize(j,self.__width-1)
+        i = self.__sanitize(i,self.__width-1)
+        j = self.__sanitize(j,self.__height-1)
 
-        return self.__boxField[hash((i,j))].color()
+        return self.__boxField[hash((i,j))].color
 
     def __sanitize(self,i,max):
         """Verifies that the input is correct: if -1 give max, and if max+1 give 0"""
@@ -88,18 +92,18 @@ class Field(Identifiable,Observable):
     
     def __str__(self):
         ret = "Boxes: \n"
-        for box in self.__boxField.keys():
+        for box in self.__boxField.values():
             ret += " - " + str(box) +"\n"
     
     def _convertData(self) -> str:
         """Gets the data and makes it understandable to the notifier"""
         ret = []
 
-        for b in self.__boxField.keys:
+        for b in self.__boxField.values():
             dict = {}
             dict["x"]=str(b.coord[0])
             dict["y"]=str(b.coord[1])
-            dict["color"]=b.color.value
+            dict["color"]=str(b.color)
             ret.append(dict)
         
-        return json.dump(ret)
+        return json.dumps(ret)

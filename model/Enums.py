@@ -1,6 +1,6 @@
 from enum import Enum
 
 class COLOR(Enum):
-    BLACK=1
-    WHITE=2
-    GREY=3
+    WHITE=0
+    RED=1
+    BLUE=2

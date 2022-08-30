@@ -3,5 +3,6 @@ import json
 
 class Observer(object):
     @abstractmethod
-    def _notified(self,string):
+    def notified(self,string):
         pass
+

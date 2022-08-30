@@ -3,7 +3,7 @@ class Identifiable(object):
     __id = -1
 
     @classmethod
-    def __getId():
+    def _getId(self):
         # Creates a 
         Identifiable.__id = Identifiable.__id + 1
         return Identifiable.__id

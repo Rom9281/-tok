@@ -4,8 +4,8 @@ from model.Identifiable import Identifiable
 class Box(Identifiable):
     """Model for one of the boxes of the solitary"""
 
-    def __init__(self, color=COLOR.GREY, coord=(0,0)):
-        self.__id = Identifiable.__getId()
+    def __init__(self, color=COLOR(0), coord=(0,0)):
+        self.__id = Identifiable._getId()
         self.__color = color
         self.__coord = coord
 

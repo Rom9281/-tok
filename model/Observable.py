@@ -6,7 +6,7 @@ class Observable(object):
     
     def notifyObserver(self):
         for o in self.__observers:
-            o(self._convertData())  
+            o.notified(self._convertData())  
     
     @abstractmethod
     def _convertData(self)->str:
