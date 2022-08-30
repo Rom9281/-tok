@@ -1,11 +1,10 @@
 from abc import abstractmethod
 
-
 class Observable(object):
     def __init__(self,*args) -> None:
         self.__observers= args
     
-    def _notifyObserver(self):
+    def notifyObserver(self):
         for o in self.__observers:
             o(self._convertData())  
     

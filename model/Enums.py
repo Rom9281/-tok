@@ -1,8 +1,6 @@
-import enum
+from enum import Enum
 
-# Enum des couleurs
-
-class COLOR(enum):
+class COLOR(Enum):
     BLACK=1
     WHITE=2
     GREY=3

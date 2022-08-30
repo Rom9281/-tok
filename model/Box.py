@@ -1,5 +1,4 @@
-from Enums import COLOR
-
+from model.Enums import COLOR
 from model.Identifiable import Identifiable
 
 class Box(Identifiable):

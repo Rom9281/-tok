@@ -1,9 +1,9 @@
 from model.Identifiable import Identifiable
 from model.Observable import Observable
 from model.Box import Box
-from random import randint
-from Enums import COLOR
+from model.Enums import COLOR
 
+from random import randint
 import json
 
 class Field(Identifiable,Observable):
@@ -20,8 +20,42 @@ class Field(Identifiable,Observable):
             for j in range(self.__height):
                 rand = randint(0,2)
                 ret[hash((i,j))]=Box(COLOR(rand),(i,j))
+    
+    def _getEmptyBoxes(self)->list:
+        ret = []
+        for box in self.__boxField.keys:
+            if box.color == COLOR.GREY:
+                ret.append(box)
+        return ret
+    
+    def _getRandomEmpty(self)->tuple:
+        listEmpty = self._getEmptyBoxes()
+        rand = randint(0,len(listEmpty)-1)
+        return listEmpty[rand].coord()
+    
+    def _moveColor(self,i,j):
+        color = self.__boxField[hash((i,j))].color() # get the color of the moved citizen
+        self.__boxField[hash((i,j))].color(COLOR.GREY) # color the old box to grey
+        self.__boxField[hash(self._getRandomEmpty())].color(color) # color the new box with the right color
+    
+    def getBoxColor(self,i,j):
+        """The Field class sanitises the input and then returns the right box"""
+        i = self.__sanitize(i,self.__height-1)
+        j = self.__sanitize(j,self.__width-1)
 
+        return self.__boxField[hash((i,j))].color()
 
+    def __sanitize(self,i,max):
+        """Verifies that the input is correct: if -1 give max, and if max+1 give 0"""
+        if i<-1 or i>max+1:
+            raise ValueError("Invalid input: the input must be between -1 and {}".format(max))
+            i=0
+        elif i==-1:
+            i=max
+        elif i==max+1:
+            i=0
+        
+        return i
 
     @property
     def width(self):

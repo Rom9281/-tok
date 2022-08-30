@@ -4,7 +4,7 @@ import numpy as np
 
 class ConsoleView(Observer):
     def __init__(self,width,height) -> None:
-        self.__array = np.array(width,height)
+        self.__array = np.zeros((width,height))
 
         
     def _notified(self, string):

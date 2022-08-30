@@ -8,4 +8,5 @@ width = 10
 height = 10
 
 view = ConsoleView(width,height)
-game = Game(width,height)
+game = Game(width,height,view)
+game.play()
